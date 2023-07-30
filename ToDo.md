@@ -3,10 +3,16 @@
         [x] Columns will be 1. ID 2. Task. 3.Complete (will be boolean data)
 
 [x]Create Server File
-    [] Test to ensure functionality
+    [x] Test to ensure functionality
+    [] Create functioning POST request to add task to database
+    [] Create functioning PUT request to change t/f status with 'complete' btn in database
+    [] Create functioning delete request to remove data from database
 
 [x]Create Client File
-    [] Test to ensure functionality
+    [x] Test to ensure functionality
+    []Create function that pulls information submitted from input field and pushes to database for storage part of POST request on server side
+    [] Create functioning PUT request to change appearance and status of t/f status. will also need handler to listen to work.
+    [] Create functioning delete request to remove data from database with delete button. will also need handler to listen to work
 
 [x]Create HTML File
     [x]Header listing 'To Do Application'

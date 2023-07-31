@@ -23,10 +23,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // GET request
 app.get('/to-do-list', (req, res) => {
-    let queryText = `SELECT * FROM "toDoTable";`;
+    let queryText = 
+    `SELECT * FROM "toDoTable" 
+    ORDER BY "complete" ASC;`;
 
-    pool.query(queryText).then((result) => {
-        console.log(result.rows);
+    pool.query(queryText)
+    .then((result) => {
+        // console.log(result.rows);
         res.send(result.rows)
     }).catch((error) => {
         console.log(`Error on GET query ${queryText}`, error);
@@ -34,6 +37,21 @@ app.get('/to-do-list', (req, res) => {
     })
 })
 
+//GET request for single task id 
+app.get('to-do-list/onetask/:id', (req, res) => {
+    const idToGet = [req.params.id]
+    const queryText = `
+    SELECT * FROM "toDoTable" WHERE "id" = $1;`
+
+    pool.query(queryText, idToGet).then((result) => {
+        console.log("Yay, retrieved task!")
+        res.send(result.rows)
+    }).catch((error) => {
+        alert("Failed to retrieve onesong: id =", idToGet[0])
+        console.log("error at /onesong/:id", error)
+        res.sendStatus(500)
+    })
+})
 
 // POST request
 app.post('/to-do-list', (req, res) => {
@@ -51,13 +69,43 @@ app.post('/to-do-list', (req, res) => {
         res.sendStatus(500)
     })
 })
-// 
-// 
-// 
-// 
-// 
-// 
-// 
+
+
+//DELETE request
+app.delete('/deletetask/:id', (req, res) => {
+    let taskToDeleteID = req.params.id
+    let queryText = 'DELETE FROM "toDoTable" WHERE "id" = $1;'
+
+    pool.query(queryText, [taskToDeleteID]).then((result) => {
+        console.log("task Deleted, id:", taskToDeleteID)
+        res.sendStatus(200)
+    }).catch((error) => {
+        console.log('Error making database query:', queryText)
+        console.log('Error Message:', error)
+        res.sendStatus(500)
+    })
+})
+
+
+// PUT request
+app.put('/completetask/:id', (req, res) => {
+    let taskId = req.params.id
+    let completeStatus = 'true';
+    let queryParams = [completeStatus, taskId]
+
+    let queryText = `UPDATE "toDoTable" SET "complete" = $1 WHERE "id" = $2;`
+    console.log(`Success connecting to /updatetask. taskId = ${taskId}, completeStatus = ${completeStatus}`)
+
+    pool.query(queryText, queryParams)
+    .then((response) => {
+        res.sendStatus(200)
+    }).catch((error) => {
+        console.log(error)
+        res.sendStatus(500)
+    })
+})
+
+
 //----------Server Code Set Up--------------
 app.listen(PORT, () => {
     console.log('listening on port', PORT);

@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //------------------------------------------
 // Section for Ajax logic/paths
 
-// First create GET request to confirm connectivity
+// GET request
 app.get('/to-do-list', (req, res) => {
     let queryText = `SELECT * FROM "toDoTable";`;
 
@@ -33,8 +33,24 @@ app.get('/to-do-list', (req, res) => {
         res.sendStatus(500);
     })
 })
-// 
-// 
+
+
+// POST request
+app.post('/to-do-list', (req, res) => {
+    console.log("req.body:", req.body)
+    const task = req.body.task
+    const complete = req.body.complete
+
+    const queryParams = [task, complete]
+    const queryText = `INSERT INTO "toDoTable"("task", "complete") VALUES ($1, $2);`
+    pool.query(queryText, queryParams).then(function (result) {
+        console.log("Pool query worked!")
+        res.sendStatus(201)
+    }).catch((error) => {
+        console.log("Error on POST 'to-do-list'", error)
+        res.sendStatus(500)
+    })
+})
 // 
 // 
 // 

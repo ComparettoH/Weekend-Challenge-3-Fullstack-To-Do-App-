@@ -6,13 +6,13 @@
     [x] Test to ensure functionality
     [x] Create functioning POST request to add task to database
     [] Create functioning PUT request to change t/f status with 'complete' btn in database
-    [] Create functioning delete request to remove data from database
+    [x] Create functioning delete request to remove data from database
 
 [x]Create Client File
     [x] Test to ensure functionality
     [x]Create function that pulls information submiatted from input field and pushes to database for storage part of POST request on server side
     [] Create functioning PUT request to change appearance and status of t/f status. will also need handler to listen to work.
-    [] Create functioning delete request to remove data from database with delete button. will also need handler to listen to work
+    [x] Create functioning delete request to remove data from database with delete button. will also need handler to listen to work
 
 [x]Create HTML File
     [x]Header listing 'To Do Application'
